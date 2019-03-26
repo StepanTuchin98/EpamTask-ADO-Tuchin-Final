@@ -9,6 +9,18 @@ namespace Entities
 {
     public class Message
     {
+        public Message()
+        {
+        }
+
+        public Message(int? iDUser, int? iDFriend, string messageValue, DateTime messageDate)
+        {
+            IDUser = iDUser;
+            IDFriend = iDFriend;
+            MessageValue = messageValue;
+            MessageDate = messageDate;
+        }
+
         public int? IDUser { get; set; }
 
         public int? IDFriend { get; set; }
@@ -18,5 +30,20 @@ namespace Entities
         public string MessageValue { get; set; }
 
         public DateTime MessageDate { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

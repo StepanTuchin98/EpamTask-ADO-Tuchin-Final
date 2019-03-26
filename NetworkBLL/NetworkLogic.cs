@@ -41,19 +41,26 @@ namespace NetworkBLL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Message> GetMessagesByFriend(User friend)
+        public IEnumerable<Message> GetMessagesByFriend(Friend friend)
         {
-            throw new NotImplementedException();
+            return NetworkDao.GetMessagesByFriend(friend);
         }
 
-        public string GetRole(int? id)
+        public string[] GetRoles(string username)
         {
-            throw new NotImplementedException();
+            return NetworkDao.GetRoles(username);
         }
 
-        public void RemoveUserById(int? id)
+        public bool IsUserInRole(string username, string roleName)
         {
-            throw new NotImplementedException();
+            return NetworkDao.IsUserInRole(username, roleName);
+        }
+
+
+
+        public void RemoveUserById(string username)
+        {
+            NetworkDao.DeleteFriend(username);
         }
 
         public IEnumerable<UserSearch> SearchByName(string Name, int? idUser)
@@ -63,17 +70,22 @@ namespace NetworkBLL
 
         public IEnumerable<UserSearch> SearchBySurname(string Surname, int? idUser)
         {
-            throw new NotImplementedException();
+            return NetworkDao.SearchBySurname(Surname, idUser);
         }
 
         public IEnumerable<UserSearch> SearchByTown(string Town, int? idUser)
         {
-            throw new NotImplementedException();
+            return NetworkDao.SearchByTown(Town, idUser);
         }
 
         public IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser)
         {
-            throw new NotImplementedException();
+            return NetworkDao.SearchByYearOfBirth(YearOfBirth, idUser);
+        }
+
+        public void SendMessage(int userId, int friendId, string message)
+        {
+            NetworkDao.SendMessage(userId, friendId, message);
         }
 
         public int SingUp(User user)

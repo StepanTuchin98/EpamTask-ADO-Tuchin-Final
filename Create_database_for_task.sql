@@ -143,3 +143,15 @@ BEGIN
 	 FROM [User] u INNER JOIN UserRole r ON r.IDUser = u.IDUser
 	 WHERE  u.[Login] = @UserName
 END
+
+GO
+CREATE PROCEDURE [dbo].SendMessage
+	@IDUser int, 
+	@IDFriend int,
+	@Message [varchar](100),
+	@DateOfMessage datetime
+AS
+BEGIN
+	 INSERT INTO [Messages] (IDUser, IDFriend, [Message], DateOfMessage)
+		VALUES(@IDUser, @IDFriend, @Message, @DateOfMessage)
+END

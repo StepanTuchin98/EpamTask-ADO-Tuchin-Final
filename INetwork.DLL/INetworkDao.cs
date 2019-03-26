@@ -9,11 +9,8 @@ namespace INetwork.DLL
 {
     public interface INetworkDao
     {
-
         int SingUp(User user);
 
-        void RemoveUserById(int? id);
-   
         void AddFriend(int? IdUser, int? IdFriend);
 
         IEnumerable<UserSearch> SearchByName(string Name, int? idUser);
@@ -24,7 +21,7 @@ namespace INetwork.DLL
 
         IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser);
 
-        IEnumerable<Message> GetMessagesByFriend(User friend);
+        IEnumerable<Message> GetMessagesByFriend(Friend friend);
 
         IEnumerable<Friend> GetAllFriends(int? id);
 
@@ -32,6 +29,11 @@ namespace INetwork.DLL
 
         void Edit(User user);
 
-        string GetRole(int? id);
+        string[] GetRoles(string username);
+        bool IsUserInRole(string username, string roleName);
+
+        void DeleteFriend(string username);
+
+        void SendMessage(int userId, int friendId, string message);
     }
 }

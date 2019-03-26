@@ -12,7 +12,7 @@ namespace INetwork.BLL
 
         int SingUp(User user);
 
-        void RemoveUserById(int? id);
+        void RemoveUserById(string username);
 
         void AddFriend(int? IdUser, int? IdFriend);
 
@@ -24,7 +24,7 @@ namespace INetwork.BLL
 
         IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser);
 
-        IEnumerable<Message> GetMessagesByFriend(User friend);
+        IEnumerable<Message> GetMessagesByFriend(Friend friend);
 
         IEnumerable<Friend> GetAllFriends(int? id);
 
@@ -32,6 +32,10 @@ namespace INetwork.BLL
 
         void Edit(User user);
 
-        string GetRole(int? id);
+        bool IsUserInRole(string username, string roleName);
+
+        string[] GetRoles(string username);
+
+        void SendMessage(int userId, int friendId, string message);
     }
 }

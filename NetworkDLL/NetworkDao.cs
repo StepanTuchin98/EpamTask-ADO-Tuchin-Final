@@ -13,7 +13,7 @@ namespace NetworkDLL
     public class NetworkDao : INetworkDao
     {
         private string connectionString =
-                   ConfigurationManager.ConnectionStrings["NetworkDB"].ConnectionString;
+                    ConfigurationManager.ConnectionStrings["NetworkDB"].ConnectionString;
 
         public void AddFriend(int? IdUser, int? IdFriend)
         {
@@ -120,9 +120,9 @@ namespace NetworkDLL
 
         public bool IsUserInRole(string username, string roleName)
         {
-            foreach(string r in GetRoles(username))
+            foreach (string r in GetRoles(username))
             {
-                if(r.Equals(roleName))
+                if (r.Equals(roleName))
                 {
                     return true;
                 }
@@ -130,9 +130,18 @@ namespace NetworkDLL
             return false;
         }
 
-        public void RemoveUserById(int? id)
+        public void DeleteFriend(string username)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("AddFriend", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Username", username);
+
+                connection.Open();
+
+                cmd.ExecuteNonQuery();
+            }
         }
 
         public IEnumerable<UserSearch> SearchByName(string Name, int? idUser)
@@ -213,6 +222,25 @@ namespace NetworkDLL
 
                 return (int)id.Value;
             }
+        }
+
+        public Message SendMessage(int userId, int friendId, string message)
+        {
+            DateTime now = DateTime.Now;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SendMessage", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDUser", userId);
+                cmd.Parameters.AddWithValue("@IDFriend", friendId);
+                cmd.Parameters.AddWithValue("@Message", message);
+                cmd.Parameters.AddWithValue("@DateOfMessage", now);
+
+                connection.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            return new Message(userId, friendId, message, now);
         }
     }
 }
