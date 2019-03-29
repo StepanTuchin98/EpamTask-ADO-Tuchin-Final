@@ -66,11 +66,12 @@ CREATE PROCEDURE [dbo].[AddUser]
 	@Town nvarchar(50),
 	@YearOfBirth int,
 	@Phone nvarchar(12),
+	@Gender bit,
 	@Id int out
 AS
 BEGIN
-	 INSERT INTO [User]([Name], [Surname], Patronymic, YearOfBirth, Town, Phone, [Password],[Login] )
-		VALUES(@Name, @Surname, @Patronymic, @YearOfBirth, @Town, @Phone, @Password, @Login)
+	 INSERT INTO [User]([Name], [Surname], Patronymic, YearOfBirth, Town, Phone, [Password],[Login], Gender )
+		VALUES(@Name, @Surname, @Patronymic, @YearOfBirth, @Town, @Phone, @Password, @Login, @Gender)
 
 		SET @Id = SCOPE_IDENTITY();
 END
@@ -154,4 +155,14 @@ AS
 BEGIN
 	 INSERT INTO [Messages] (IDUser, IDFriend, [Message], DateOfMessage)
 		VALUES(@IDUser, @IDFriend, @Message, @DateOfMessage)
+END
+GO
+CREATE PROCEDURE [dbo].[LogIn]
+	@Login nvarchar(35), 
+	@Password nvarchar(35)
+AS
+BEGIN
+	 SELECT * 
+	 FROM [User] u
+	 WHERE u.[Login] = @Login AND u.[Password] = @Password
 END

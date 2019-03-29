@@ -9,35 +9,33 @@ using System.Web.Mvc;
 
 namespace NetworkMVC.Controllers
 {
-    public class MainPageController : Controller
+    public class LogInLogOutController : Controller
     {
-
+    
         private readonly INetworkLogic networkLogic;
 
-        public MainPageController()
+        public LogInLogOutController()
         {
             this.networkLogic = new NetworkLogic();
         }
 
-        // GET: MainPage
-        
+        // GET: Login
         [HttpGet]
-        public ActionResult SingUp()
+        public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult SingUp(User user)
+        public ActionResult Login([Bind(Include = "Login, Password")] User user)
         {
-            networkLogic.SingUp(user);
-
-            return Redirect("Index");
+            bool exist = networkLogic.LogIn(user.Login, user.Password) != null ? true : false;
+            ViewBag.LogIn = exist;
+            return View();
         }
 
-        [Authorize]
-        [HttpGet]
-        public ActionResult Index()
+
+        public ActionResult Logout()
         {
             return View();
         }

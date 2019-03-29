@@ -56,7 +56,10 @@ namespace NetworkBLL
             return NetworkDao.IsUserInRole(username, roleName);
         }
 
-
+        public User LogIn(string login, string password)
+        {
+            return NetworkDao.LogIn(login, password);
+        }
 
         public void RemoveUserById(string username)
         {

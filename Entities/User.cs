@@ -15,7 +15,7 @@ namespace Entities
         {
         }
 
-        public User(int? iDUser, string name, string surname, string patronymic, bool gender, string phoneNumber, int yearOfBirth, string town, int login, string password) : base(iDUser, name, surname, patronymic, gender, phoneNumber, yearOfBirth, town)
+        public User(int? iDUser, string name, string surname, string patronymic, bool gender, string phoneNumber, int yearOfBirth, string town, string login, string password) : base(iDUser, name, surname, patronymic, gender, phoneNumber, yearOfBirth, town)
         {
             Login = login;
             Password = password;
@@ -23,7 +23,7 @@ namespace Entities
 
         [Required]
         [StringLength(35, MinimumLength = 2, ErrorMessage = "Invalid lastname length")]
-        public int Login { get; set; }
+        public string Login { get; set; }
 
         [Required]
         [StringLength(35, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

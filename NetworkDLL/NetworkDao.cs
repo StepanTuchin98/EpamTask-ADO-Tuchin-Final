@@ -12,8 +12,9 @@ namespace NetworkDLL
 {
     public class NetworkDao : INetworkDao
     {
-        private string connectionString =
-                    ConfigurationManager.ConnectionStrings["NetworkDB"].ConnectionString;
+        private string connectionString = "Data Source=DESKTOP-60HJP9E;Initial Catalog=Network;Integrated Security=True";
+
+       
 
         public void AddFriend(int? IdUser, int? IdFriend)
         {
@@ -203,7 +204,7 @@ namespace NetworkDLL
                 cmd.Parameters.AddWithValue("@Surname", user.Surname);
                 cmd.Parameters.AddWithValue("@Patronymic", user.Patronymic);
                 cmd.Parameters.AddWithValue("@YearOfBirth", user.YearOfBirth);
-                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
+                cmd.Parameters.AddWithValue("@Phone", user.PhoneNumber);
                 cmd.Parameters.AddWithValue("@Town", user.Town);
                 cmd.Parameters.AddWithValue("@Gender", user.Gender);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
@@ -211,7 +212,7 @@ namespace NetworkDLL
                 var id = new SqlParameter
                 {
                     Direction = System.Data.ParameterDirection.Output,
-                    ParameterName = "@IDUser",
+                    ParameterName = "@Id",
                     DbType = System.Data.DbType.Int32
                 };
                 cmd.Parameters.Add(id);
@@ -242,5 +243,38 @@ namespace NetworkDLL
             }
             return new Message(userId, friendId, message, now);
         }
+
+        public User LogIn(string login, string password)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("LogIn", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Login", login);
+                cmd.Parameters.AddWithValue("@Password", password);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                User u = null;
+                if (reader.Read())
+                {
+                    u = new User
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["Phone"]
+                    };
+                }
+                    return u;
+            }
+        }
+
     }
 }
+

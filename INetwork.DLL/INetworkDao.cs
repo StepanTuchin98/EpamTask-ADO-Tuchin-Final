@@ -34,6 +34,8 @@ namespace INetwork.DLL
 
         void DeleteFriend(string username);
 
-        void SendMessage(int userId, int friendId, string message);
+        Message SendMessage(int userId, int friendId, string message);
+
+        User LogIn(string login, string password);
     }
 }
