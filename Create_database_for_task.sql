@@ -110,13 +110,13 @@ BEGIN
 END
 
 GO
-CREATE PROCEDURE [dbo].[GetAllFriends]
+Alter PROCEDURE [dbo].[GetAllFriends]
 	@Login nvarchar(35)
 AS
 BEGIN
-	 SELECT u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends
+	 SELECT f.IDFriend, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends
 	 FROM [Friendship] f INNER JOIN [User] u ON f.IDFriend = u.IDUser
-	 WHERE u.[Login] = @Login
+	 WHERE u.[Login] = 'longback160'
 	 
 END
 
@@ -231,4 +231,13 @@ BEGIN
 	 WHERE u.[Login] = @Login
 	 
 END
-
+GO
+CREATE PROCEDURE [dbo].[GetById]
+	@Id int
+AS
+BEGIN
+	 SELECT u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, u.[Login]
+	 FROM [User] u 
+	 WHERE u.[IDUser] = @Id
+	 
+END

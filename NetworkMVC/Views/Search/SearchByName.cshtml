@@ -1,19 +1,9 @@
 ﻿@model IEnumerable<Entities.UserSearch>
 @{
-    ViewBag.Title = "SearchByName";
+    ViewBag.Title = "Search By Name";
 }
-@{int i = 0; }
-@{ 
-    if (IsPost)
-    {
-        if(Request[$"Add-{i}"].IsEmpty())
-        {
-            
-        }
-    }
 
-}
-<h2>SearchByName</h2>
+<h2>Search By Name</h2>
 
 @using (Html.BeginForm())
 {
@@ -35,53 +25,9 @@
         </div>
     </div>
 }
-@if (Model != null)
-{
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.YearOfBirth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            {i++;}
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.YearOfBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    <form action="/MainPage/SearchByName" method="post">
-                        <button type="submit" name="Add-@i;">AddFriend</button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </table>
-}
-    <div>
-        @Html.ActionLink("Back to Profile", "Index") / 
-        @Html.ActionLink("Another search", "Friends")
-    </div>
+
+@Html.Partial("~/Views/Shared/_PartialSearch.cshtml")
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

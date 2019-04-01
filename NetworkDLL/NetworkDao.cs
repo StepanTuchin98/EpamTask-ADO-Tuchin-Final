@@ -381,6 +381,36 @@ namespace NetworkDLL
             }
         }
 
+        public User GetById(int? id)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("GetById", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                User u = null;
+                if (reader.Read())
+                {
+                    u = new User
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Login = (string)reader["Login"]
+                    };
+                }
+                return u;
+            }
+        }
     }
 }
 

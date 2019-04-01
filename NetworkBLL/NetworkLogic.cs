@@ -31,6 +31,11 @@ namespace NetworkBLL
             NetworkDao.Edit(user);
         }
 
+        public User GetById(int? id)
+        {
+            return NetworkDao.GetById(id);
+        }
+
         public IEnumerable<Friend> GetAllFriends(string username)
         {
             return NetworkDao.GetAllFriends(username);

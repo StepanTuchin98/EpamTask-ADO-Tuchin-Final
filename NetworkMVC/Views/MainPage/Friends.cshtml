@@ -69,9 +69,10 @@
             @Html.DisplayFor(modelItem => item.TermOfFriend)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            <form action="~/Views/Search/Details.cshtml" method="post">
+                <input type="hidden" name="idUser" id="idUser" value="@item.IDUser" />
+                <button type="submit" name="Remove">Remove</button>
+            </form>
         </td>
     </tr>
 }

@@ -30,6 +30,8 @@ namespace INetwork.BLL
 
         User GetByLogin(string username);
 
+        User GetById(int? id);
+
         void Edit(User user);
 
         bool IsUserInRole(string username, string roleName);

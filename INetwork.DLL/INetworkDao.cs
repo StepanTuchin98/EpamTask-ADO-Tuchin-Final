@@ -27,6 +27,8 @@ namespace INetwork.DLL
 
         User GetByLogin(string username);
 
+        User GetById(int? id);
+
         void Edit(User user);
 
         string[] GetRoles(string username);

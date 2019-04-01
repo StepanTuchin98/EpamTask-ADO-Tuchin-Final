@@ -1,8 +1,10 @@
-﻿using INetwork.BLL;
+﻿using Entities;
+using INetwork.BLL;
 using NetworkBLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -89,6 +91,24 @@ namespace NetworkMVC.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ViewBag.isFriend = networkLogic.GetAllFriends(User.Identity.Name).FirstOrDefault(x => x.IDUser == id) == null ? false: true ;
+            return View(networkLogic.GetById(id));
+        }
+        [ActionName("Details")]
+        [HttpPost]
+        public ActionResult Details_Post([Bind(Include ="idUser")] int? idUser)
+        {
+            networkLogic.AddFriend(networkLogic.GetByLogin(User.Identity.Name).IDUser, idUser);
+            return Redirect("~/MainPage/Friends");
         }
     }
 }
