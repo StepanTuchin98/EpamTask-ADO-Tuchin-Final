@@ -110,14 +110,14 @@ BEGIN
 END
 
 GO
-Alter PROCEDURE [dbo].[GetAllFriends]
+CREATE PROCEDURE [dbo].[GetAllFriends]
 	@Login nvarchar(35)
 AS
 BEGIN
-	 SELECT f.IDFriend, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends
-	 FROM [Friendship] f INNER JOIN [User] u ON f.IDFriend = u.IDUser
-	 WHERE u.[Login] = 'longback160'
-	 
+	 SELECT f.IDFriend, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends,u.[Login]
+	 FROM [User] u INNER JOIN (SELECT [IDFriend], Term_Friends FROM [Friendship] WHERE IDUser = 
+	 (SELECT [IDUser] FROM [User] WHERE [Login] = 'longback160')
+	 ) f ON f.IDFriend = u.IDUser 
 END
 
 GO
