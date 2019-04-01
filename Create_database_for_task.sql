@@ -21,7 +21,7 @@ CREATE TABLE [User](
 	[Name] [varchar](50) NOT NULL,
 	[Patronymic] [varchar](50) NULL,
 	[Gender] [bit] NULL,
-	[Phone] [varchar](15) NULL,
+	[PhoneNumber] [varchar](15) NULL,
 	[YearOfBirth] [int] NULL,
 	[Town] [varchar](35) NULL,
 	[Login] [varchar](35) NOT NULL,
@@ -55,6 +55,29 @@ FOREIGN KEY([IDUser]) REFERENCES [User] ([IDUser])
 
 ALTER TABLE [Messages]  WITH CHECK ADD  CONSTRAINT [FK_Messages]
 FOREIGN KEY([IDUser]) REFERENCES [User] ([IDUser])
+GO
+
+INSERT [User] 
+([Surname], [Name], [Login], [Password])
+Values
+('Tuchin', 'Stepan', 'admin', 'admin')
+INSERT [UserRole]
+([IDUser], [Role])
+Values
+(1, 'admin')
+
+GO
+CREATE TRIGGER Insert_New_User ON [User] AFTER INSERT
+AS 
+BEGIN 
+	DECLARE @Id int
+	SET @Id = (SELECT IDUser FROM inserted); 
+	INSERT UserRole
+	([IDUser], [Role])
+	VALUES
+	(@Id, 'user')
+END
+GO
 
 GO
 CREATE PROCEDURE [dbo].[AddUser]
@@ -65,13 +88,13 @@ CREATE PROCEDURE [dbo].[AddUser]
 	@Patronymic nvarchar(50),
 	@Town nvarchar(50),
 	@YearOfBirth int,
-	@Phone nvarchar(12),
+	@PhoneNumber nvarchar(12),
 	@Gender bit,
 	@Id int out
 AS
 BEGIN
-	 INSERT INTO [User]([Name], [Surname], Patronymic, YearOfBirth, Town, Phone, [Password],[Login], Gender )
-		VALUES(@Name, @Surname, @Patronymic, @YearOfBirth, @Town, @Phone, @Password, @Login, @Gender)
+	 INSERT INTO [User]([Name], [Surname], Patronymic, YearOfBirth, Town, PhoneNumber, [Password],[Login], Gender )
+		VALUES(@Name, @Surname, @Patronymic, @YearOfBirth, @Town, @PhoneNumber, @Password, @Login, @Gender)
 
 		SET @Id = SCOPE_IDENTITY();
 END
@@ -88,24 +111,53 @@ END
 
 GO
 CREATE PROCEDURE [dbo].[GetAllFriends]
-	@Id int
+	@Login nvarchar(35)
 AS
 BEGIN
-	 SELECT u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.Phone, u.Town, f.Term_Friends
+	 SELECT u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends
 	 FROM [Friendship] f INNER JOIN [User] u ON f.IDFriend = u.IDUser
-	 WHERE u.IDUser = @Id
+	 WHERE u.[Login] = @Login
 	 
 END
 
 GO
-CREATE PROCEDURE [dbo].[GetAllByName]
-	@Name [varchar](50),
-	@Id int
+CREATE PROCEDURE [dbo].SearchByName
+	@Name [varchar](50)
 AS
 BEGIN
-	 SELECT f.IDFriend, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.Phone, u.Town, f.Term_Friends
-	 FROM [Friendship] f INNER JOIN [User] u ON f.IDFriend = u.IDUser
-	 WHERE u.IDUser = @Id AND u.[Name] = @Name
+	 SELECT  u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town
+	 FROM [User] u 
+	 WHERE u.[Name] = @Name
+	 
+END
+GO
+CREATE PROCEDURE [dbo].SearchBySurname
+	@Surname [varchar](50)
+AS
+BEGIN
+	 SELECT  u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town
+	 FROM [User] u 
+	 WHERE u.Surname = @Surname
+	 
+END
+GO
+CREATE PROCEDURE [dbo].SearchByPhone
+	@PhoneNumber [varchar](15)
+AS
+BEGIN
+	 SELECT  u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town
+	 FROM [User] u 
+	 WHERE u.[PhoneNumber] = @PhoneNumber
+	 
+END
+GO
+CREATE PROCEDURE [dbo].SearchByTown
+	@Town [varchar](35)
+AS
+BEGIN
+	 SELECT  u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town
+	 FROM [User] u 
+	 WHERE u.[Town] = @Town
 	 
 END
 
@@ -118,7 +170,8 @@ CREATE PROCEDURE [dbo].[EditUser]
 	@Patronymic nvarchar(50),
 	@Town nvarchar(50),
 	@YearOfBirth int,
-	@Phone nvarchar(12),
+	@PhoneNumber nvarchar(12),
+	@Gender bit,
 	@Id int
 AS
 BEGIN
@@ -130,7 +183,8 @@ BEGIN
 		Patronymic = @Patronymic, 
 		Town = @Town, 
 		YearOfBirth = @YearOfBirth,
-		Phone = @Phone
+		PhoneNumber = @PhoneNumber, 
+		Gender = @Gender
 
 		Where IDUser = @Id
 END
@@ -166,3 +220,15 @@ BEGIN
 	 FROM [User] u
 	 WHERE u.[Login] = @Login AND u.[Password] = @Password
 END
+
+Go
+CREATE PROCEDURE [dbo].[GetByLogin]
+	@Login [varchar](35)
+AS
+BEGIN
+	 SELECT u.IDUser, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, u.[Login]
+	 FROM [User] u 
+	 WHERE u.[Login] = @Login
+	 
+END
+

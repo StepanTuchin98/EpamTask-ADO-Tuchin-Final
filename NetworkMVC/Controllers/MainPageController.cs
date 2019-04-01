@@ -31,15 +31,36 @@ namespace NetworkMVC.Controllers
         public ActionResult SingUp(User user)
         {
             networkLogic.SingUp(user);
-
-            return Redirect("Index");
+            return Redirect($"~/LogInLogOut/Login");
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            return View(networkLogic.GetByLogin(User.Identity.Name));
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult EditPersonInfo()
+        {
+            return View(networkLogic.GetByLogin(User.Identity.Name));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditPersonInfo(User u)
+        {
+            networkLogic.Edit(u);
+            return Redirect("Index");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Friends()
+        {
+            return View(networkLogic.GetAllFriends(User.Identity.Name));
         }
     }
 }

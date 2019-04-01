@@ -46,6 +46,7 @@ namespace NetworkDLL
                 cmd.Parameters.AddWithValue("@Gender", user.Gender);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Login", user.Login);
+                cmd.Parameters.AddWithValue("@Id", user.IDUser);
 
                 connection.Open();
 
@@ -53,14 +54,14 @@ namespace NetworkDLL
             }
         }
 
-        public IEnumerable<Friend> GetAllFriends(int? id)
+        public IEnumerable<Friend> GetAllFriends(string username)
         {
             var result = new List<Friend>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("GetAllFriends", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@IDUser", id);
+                cmd.Parameters.AddWithValue("@Login", username);
 
                 connection.Open();
 
@@ -87,9 +88,35 @@ namespace NetworkDLL
             return result;
         }
 
-        public UserSearch GetById(int? id)
+        public User GetByLogin(string username)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("GetByLogin", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Login", username);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                User u = null;
+                if (reader.Read())
+                {
+                    u = new User
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Login = username
+                    };
+                }
+                return u;
+            }
         }
 
         public IEnumerable<Message> GetMessagesByFriend(Friend friend)
@@ -145,15 +172,14 @@ namespace NetworkDLL
             }
         }
 
-        public IEnumerable<UserSearch> SearchByName(string Name, int? idUser)
+        public IEnumerable<UserSearch> SearchByName(string Name)
         {
             var result = new List<UserSearch>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("GetAllByName", connection);
+                SqlCommand cmd = new SqlCommand("SearchByName", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", Name);
-                cmd.Parameters.AddWithValue("@Id", idUser);
 
                 connection.Open();
 
@@ -161,7 +187,7 @@ namespace NetworkDLL
 
                 while (reader.Read())
                 {
-                    var f = new Friend
+                    var f = new UserSearch
                     {
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
@@ -171,7 +197,6 @@ namespace NetworkDLL
                         Gender = (bool)reader["Gender"],
                         YearOfBirth = (int)reader["YearOfBirth"],
                         PhoneNumber = (string)reader["PhoneNumber"],
-                        TermOfFriend = (DateTime)reader["Term_Friends"],
                     };
                     result.Add(f);
                 }
@@ -179,19 +204,100 @@ namespace NetworkDLL
             return result;
         }
 
-        public IEnumerable<UserSearch> SearchBySurname(string Surname, int? idUser)
+        public IEnumerable<UserSearch> SearchBySurname(string Surname)
         {
-            throw new NotImplementedException();
+            var result = new List<UserSearch>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SearchBySurname", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Surname", Surname);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var f = new UserSearch
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["PhoneNumber"],
+                    };
+                    result.Add(f);
+                }
+            }
+            return result;
         }
 
-        public IEnumerable<UserSearch> SearchByTown(string Town, int? idUser)
+        public IEnumerable<UserSearch> SearchByTown(string Town)
         {
-            throw new NotImplementedException();
+            var result = new List<UserSearch>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SearchByTown", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Town", Town);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var f = new UserSearch
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["PhoneNumber"],
+                    };
+                    result.Add(f);
+                }
+            }
+            return result;
         }
 
-        public IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser)
+        public IEnumerable<UserSearch> SearchByPhone(string Phone)
         {
-            throw new NotImplementedException();
+            var result = new List<UserSearch>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SearchByPhone", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PhoneNumber", Phone);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var f = new UserSearch
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = (string)reader["Patronymic"],
+                        Town = (string)reader["Town"],
+                        Gender = (bool)reader["Gender"],
+                        YearOfBirth = (int)reader["YearOfBirth"],
+                        PhoneNumber = (string)reader["PhoneNumber"],
+                    };
+                    result.Add(f);
+                }
+            }
+            return result;
         }
 
         public int SingUp(User user)
@@ -204,7 +310,7 @@ namespace NetworkDLL
                 cmd.Parameters.AddWithValue("@Surname", user.Surname);
                 cmd.Parameters.AddWithValue("@Patronymic", user.Patronymic);
                 cmd.Parameters.AddWithValue("@YearOfBirth", user.YearOfBirth);
-                cmd.Parameters.AddWithValue("@Phone", user.PhoneNumber);
+                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
                 cmd.Parameters.AddWithValue("@Town", user.Town);
                 cmd.Parameters.AddWithValue("@Gender", user.Gender);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
@@ -268,7 +374,7 @@ namespace NetworkDLL
                         Town = (string)reader["Town"],
                         Gender = (bool)reader["Gender"],
                         YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["Phone"]
+                        PhoneNumber = (string)reader["PhoneNumber"]
                     };
                 }
                     return u;

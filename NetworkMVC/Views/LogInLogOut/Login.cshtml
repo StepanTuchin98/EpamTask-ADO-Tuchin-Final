@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Login</h2>
@@ -11,7 +12,7 @@
     if (ViewBag.LogIn)
     {
         FormsAuthentication.SetAuthCookie(login, createPersistentCookie: true);
-        Response.Redirect("/LogInLogOut/Logout");
+        Response.Redirect("/MainPage/Index");
     }
     else
     {
@@ -20,9 +21,9 @@
 }
 
 <form action="/LogInLogOut/Login" method="post">
-    <label for="Login">login</label>
+    <label for="Login">login:</label>
     <input type="text" name="Login" id="Login" />
-    <label for="Password">password</label>
-    <input type="text" name="Password" id="Password" />
+    <label for="Password">password:</label>
+    <input type="password" name="Password" id="Password" />
     <button type="submit">Log in</button>
 </form>

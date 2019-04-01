@@ -35,6 +35,7 @@ namespace NetworkMVC.Controllers
         }
 
 
+        [Authorize]
         public ActionResult Logout()
         {
             return View();

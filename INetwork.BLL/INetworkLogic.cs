@@ -16,19 +16,19 @@ namespace INetwork.BLL
 
         void AddFriend(int? IdUser, int? IdFriend);
 
-        IEnumerable<UserSearch> SearchByName(string Name, int? idUser);
+        IEnumerable<UserSearch> SearchByName(string Name);
 
-        IEnumerable<UserSearch> SearchBySurname(string Surname, int? idUser);
+        IEnumerable<UserSearch> SearchBySurname(string Surname);
 
-        IEnumerable<UserSearch> SearchByTown(string Town, int? idUser);
+        IEnumerable<UserSearch> SearchByTown(string Town);
 
-        IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser);
+        IEnumerable<UserSearch> SearchByPhone(string Phone);
 
         IEnumerable<Message> GetMessagesByFriend(Friend friend);
 
-        IEnumerable<Friend> GetAllFriends(int? id);
+        IEnumerable<Friend> GetAllFriends(string username);
 
-        UserSearch GetById(int? id);
+        User GetByLogin(string username);
 
         void Edit(User user);
 

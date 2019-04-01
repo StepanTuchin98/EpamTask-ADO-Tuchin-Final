@@ -31,14 +31,14 @@ namespace NetworkBLL
             NetworkDao.Edit(user);
         }
 
-        public IEnumerable<Friend> GetAllFriends(int? id)
+        public IEnumerable<Friend> GetAllFriends(string username)
         {
-            return NetworkDao.GetAllFriends(id);
+            return NetworkDao.GetAllFriends(username);
         }
 
-        public UserSearch GetById(int? id)
+        public User GetByLogin(string username)
         {
-            throw new NotImplementedException();
+            return NetworkDao.GetByLogin(username);
         }
 
         public IEnumerable<Message> GetMessagesByFriend(Friend friend)
@@ -66,24 +66,24 @@ namespace NetworkBLL
             NetworkDao.DeleteFriend(username);
         }
 
-        public IEnumerable<UserSearch> SearchByName(string Name, int? idUser)
+        public IEnumerable<UserSearch> SearchByName(string Name)
         {
-            return NetworkDao.SearchByName(Name, idUser);
+            return NetworkDao.SearchByName(Name);
         }
 
-        public IEnumerable<UserSearch> SearchBySurname(string Surname, int? idUser)
+        public IEnumerable<UserSearch> SearchBySurname(string Surname)
         {
-            return NetworkDao.SearchBySurname(Surname, idUser);
+            return NetworkDao.SearchBySurname(Surname);
         }
 
-        public IEnumerable<UserSearch> SearchByTown(string Town, int? idUser)
+        public IEnumerable<UserSearch> SearchByTown(string Town)
         {
-            return NetworkDao.SearchByTown(Town, idUser);
+            return NetworkDao.SearchByTown(Town);
         }
 
-        public IEnumerable<UserSearch> SearchByYearOfBirth(int YearOfBirth, int? idUser)
+        public IEnumerable<UserSearch> SearchByPhone(string Phone)
         {
-            return NetworkDao.SearchByYearOfBirth(YearOfBirth, idUser);
+            return NetworkDao.SearchByPhone(Phone);
         }
 
         public void SendMessage(int userId, int friendId, string message)
