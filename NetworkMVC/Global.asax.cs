@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetworkDLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,7 @@ namespace NetworkMVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            LoggerUtil.InitLogger("Logs\\Info.log", "%d  %-5p %m%n", "Logger");
         }
     }
 }

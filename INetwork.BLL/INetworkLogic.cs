@@ -12,9 +12,9 @@ namespace INetwork.BLL
 
         int SingUp(User user);
 
-        void RemoveUserById(string username);
-
         void AddFriend(int? IdUser, int? IdFriend);
+
+        void DeleteFriend(int? IdUser, int? IdFriend);
 
         IEnumerable<UserSearch> SearchByName(string Name);
 
@@ -24,7 +24,7 @@ namespace INetwork.BLL
 
         IEnumerable<UserSearch> SearchByPhone(string Phone);
 
-        IEnumerable<Message> GetMessagesByFriend(Friend friend);
+        IEnumerable<Message> GetMessagesByFriend(int? IdUser, int? IdFriend);
 
         IEnumerable<Friend> GetAllFriends(string username);
 

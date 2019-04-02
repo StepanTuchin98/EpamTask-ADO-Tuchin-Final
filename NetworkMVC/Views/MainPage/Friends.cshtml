@@ -42,7 +42,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -67,12 +68,17 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TermOfFriend)
+             <td>
         </td>
         <td>
-            <form action="~/Views/Search/Details.cshtml" method="post">
-                <input type="hidden" name="idUser" id="idUser" value="@item.IDUser" />
-                <button type="submit" name="Remove">Remove</button>
-            </form>
+            @Html.ActionLink("Messages", "Index", "Message", new { id = item.IDUser }, new { })
+        </td>
+        <td>
+            
+                <form action="~/Search/Details" method="post">
+                    <input type="hidden" name="idUser" id="idUser" value="@item.IDUser" />
+                    <button type="submit" name="Remove">Remove</button>
+                </form>
         </td>
     </tr>
 }

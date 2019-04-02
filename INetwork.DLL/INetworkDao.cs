@@ -13,6 +13,8 @@ namespace INetwork.DLL
 
         void AddFriend(int? IdUser, int? IdFriend);
 
+        void DeleteFriend(int? IdUser, int? IdFriend);
+
         IEnumerable<UserSearch> SearchByName(string Name);
 
         IEnumerable<UserSearch> SearchBySurname(string Surname);
@@ -21,7 +23,7 @@ namespace INetwork.DLL
 
         IEnumerable<UserSearch> SearchByPhone(string Phone);
 
-        IEnumerable<Message> GetMessagesByFriend(Friend friend);
+        IEnumerable<Message> GetMessagesByFriend(int? IdUser, int? IdFriend);
 
         IEnumerable<Friend> GetAllFriends(string username);
 
@@ -32,9 +34,8 @@ namespace INetwork.DLL
         void Edit(User user);
 
         string[] GetRoles(string username);
-        bool IsUserInRole(string username, string roleName);
 
-        void DeleteFriend(string username);
+        bool IsUserInRole(string username, string roleName);
 
         Message SendMessage(int userId, int friendId, string message);
 

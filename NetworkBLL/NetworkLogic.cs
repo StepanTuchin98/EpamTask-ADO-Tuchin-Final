@@ -23,7 +23,15 @@ namespace NetworkBLL
 
         public void AddFriend(int? IdUser, int? IdFriend)
         {
-            NetworkDao.AddFriend(IdUser, IdFriend);
+            if (IdUser != IdFriend)
+            {
+                NetworkDao.AddFriend(IdUser, IdFriend);
+            }
+        }
+
+        public void DeleteFriend(int? IdUser, int? IdFriend)
+        {
+            NetworkDao.DeleteFriend(IdUser, IdFriend);
         }
 
         public void Edit(User user)
@@ -46,9 +54,9 @@ namespace NetworkBLL
             return NetworkDao.GetByLogin(username);
         }
 
-        public IEnumerable<Message> GetMessagesByFriend(Friend friend)
+        public IEnumerable<Message> GetMessagesByFriend(int? IdUser, int? IdFriend)
         {
-            return NetworkDao.GetMessagesByFriend(friend);
+            return NetworkDao.GetMessagesByFriend(IdUser, IdFriend);
         }
 
         public string[] GetRoles(string username)
@@ -64,11 +72,6 @@ namespace NetworkBLL
         public User LogIn(string login, string password)
         {
             return NetworkDao.LogIn(login, password);
-        }
-
-        public void RemoveUserById(string username)
-        {
-            NetworkDao.DeleteFriend(username);
         }
 
         public IEnumerable<UserSearch> SearchByName(string Name)

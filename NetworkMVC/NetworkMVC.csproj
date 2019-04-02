@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.5\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
@@ -216,11 +219,11 @@
     <Content Include="Views\Search\SearchByPhone.cshtml" />
     <Content Include="Views\Search\Details.cshtml" />
     <Content Include="Views\Shared\_PartialSearch.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -245,6 +248,10 @@
     <ProjectReference Include="..\NetworkBLL\NetworkBLL.csproj">
       <Project>{074FAB3B-1A29-42BA-9FEF-765F6D54DD53}</Project>
       <Name>NetworkBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkDLL\NetworkDAL.csproj">
+      <Project>{98811F0C-61C2-4624-B1FD-13042C235116}</Project>
+      <Name>NetworkDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

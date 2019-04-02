@@ -14,7 +14,9 @@ namespace NetworkDLL
     {
         private string connectionString = "Data Source=DESKTOP-60HJP9E;Initial Catalog=Network;Integrated Security=True";
 
-       
+        public NetworkDao()
+        {
+        }
 
         public void AddFriend(int? IdUser, int? IdFriend)
         {
@@ -28,6 +30,23 @@ namespace NetworkDLL
                 connection.Open();
 
                 cmd.ExecuteNonQuery();
+                LoggerUtil.getLog("Logger").Info($"Friend was successfully added!");
+            }
+        }
+
+        public void DeleteFriend(int? IdUser, int? IdFriend)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteFriend", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDUser", IdUser);
+                cmd.Parameters.AddWithValue("@IDFriend", IdFriend);
+
+                connection.Open();
+
+                cmd.ExecuteNonQuery();
+                LoggerUtil.getLog("Logger").Info($"Friend was successfully deleted!");
             }
         }
 
@@ -119,9 +138,34 @@ namespace NetworkDLL
             }
         }
 
-        public IEnumerable<Message> GetMessagesByFriend(Friend friend)
+        public IEnumerable<Message> GetMessagesByFriend(int? IdUser, int? IdFriend)
         {
-            throw new NotImplementedException();
+            var result = new List<Message>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("GetMessagesByIds", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDUser", IdUser);
+                cmd.Parameters.AddWithValue("@IDFriend", IdFriend);
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var m = new Message
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        IDFriend = (int?)reader["IDFriend"],
+                        MessageValue = (string)reader["MessageValue"],
+                        MessageDate = (DateTime)reader["MessageDate"],
+                    };
+
+                    result.Add(m);
+                }
+            }
+            return result;
         }
 
         public string[] GetRoles(string username)
@@ -156,20 +200,6 @@ namespace NetworkDLL
                 }
             }
             return false;
-        }
-
-        public void DeleteFriend(string username)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("AddFriend", connection);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Username", username);
-
-                connection.Open();
-
-                cmd.ExecuteNonQuery();
-            }
         }
 
         public IEnumerable<UserSearch> SearchByName(string Name)

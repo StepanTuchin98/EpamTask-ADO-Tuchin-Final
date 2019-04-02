@@ -108,6 +108,14 @@ BEGIN
 	 INSERT INTO Friendship (IDUser, IDFriend)
 		VALUES(@IDUser, @IDFriend)
 END
+GO
+CREATE PROCEDURE [dbo].DeleteFriend
+	@IDUser int, 
+	@IDFriend int
+AS
+BEGIN
+	 DELETE FROM Friendship WHERE IDFriend = @IDFriend AND IDUser = @IDUser
+END
 
 GO
 CREATE PROCEDURE [dbo].[GetAllFriends]
@@ -116,7 +124,7 @@ AS
 BEGIN
 	 SELECT f.IDFriend, u.[Name], u.Surname, u.Gender, u.YearOfBirth, u.Patronymic, u.PhoneNumber, u.Town, f.Term_Friends,u.[Login]
 	 FROM [User] u INNER JOIN (SELECT [IDFriend], Term_Friends FROM [Friendship] WHERE IDUser = 
-	 (SELECT [IDUser] FROM [User] WHERE [Login] = 'longback160')
+	 (SELECT [IDUser] FROM [User] WHERE [Login] = @Login)
 	 ) f ON f.IDFriend = u.IDUser 
 END
 
@@ -210,6 +218,18 @@ BEGIN
 	 INSERT INTO [Messages] (IDUser, IDFriend, [Message], DateOfMessage)
 		VALUES(@IDUser, @IDFriend, @Message, @DateOfMessage)
 END
+
+GO
+CREATE PROCEDURE [dbo].GetMessagesByIds
+	@IDUser int, 
+	@IDFriend int
+AS
+BEGIN
+	 SELECT * 
+	 FROM [Messages] 
+	 WHERE (IDUser = @IDUser AND IDFriend = @IDFriend) OR  (IDUser = @IDFriend AND IDFriend = @IDUser)
+END
+
 GO
 CREATE PROCEDURE [dbo].[LogIn]
 	@Login nvarchar(35), 
