@@ -30,7 +30,7 @@ namespace NetworkDLL
                 connection.Open();
 
                 cmd.ExecuteNonQuery();
-                LoggerUtil.getLog("Logger").Info($"Friend was successfully added!");
+                LoggerUtil.getLog("Logger").Info("Friend was successfully added!");
             }
         }
 
@@ -46,7 +46,7 @@ namespace NetworkDLL
                 connection.Open();
 
                 cmd.ExecuteNonQuery();
-                LoggerUtil.getLog("Logger").Info($"Friend was successfully deleted!");
+                LoggerUtil.getLog("Logger").Info("Friend was successfully deleted!");
             }
         }
 
@@ -71,6 +71,7 @@ namespace NetworkDLL
 
                 cmd.ExecuteNonQuery();
             }
+            LoggerUtil.getLog("Logger").Info($"User with login={user.Login} successfully changed personal info!");
         }
 
         public IEnumerable<Friend> GetAllFriends(string username)
@@ -104,6 +105,7 @@ namespace NetworkDLL
                     result.Add(f);
                 }
             }
+            LoggerUtil.getLog("Logger").Info($"User with login={username} got his friends!");
             return result;
         }
 
@@ -134,6 +136,7 @@ namespace NetworkDLL
                         Login = username
                     };
                 }
+                LoggerUtil.getLog("Logger").Info($"User with login={username} was taken from db!");
                 return u;
             }
         }
@@ -158,8 +161,8 @@ namespace NetworkDLL
                     {
                         IDUser = (int?)reader["IDUser"],
                         IDFriend = (int?)reader["IDFriend"],
-                        MessageValue = (string)reader["MessageValue"],
-                        MessageDate = (DateTime)reader["MessageDate"],
+                        MessageValue = (string)reader["Message"],
+                        MessageDate = (DateTime)reader["DateOfMessage"],
                     };
 
                     result.Add(m);
@@ -356,12 +359,12 @@ namespace NetworkDLL
                 connection.Open();
 
                 cmd.ExecuteNonQuery();
-
+                LoggerUtil.getLog("Logger").Info($"Some new user with login = {user.Login}!");
                 return (int)id.Value;
             }
         }
 
-        public Message SendMessage(int userId, int friendId, string message)
+        public Message SendMessage(int? userId, int? friendId, string message)
         {
             DateTime now = DateTime.Now;
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -407,7 +410,8 @@ namespace NetworkDLL
                         PhoneNumber = (string)reader["PhoneNumber"]
                     };
                 }
-                    return u;
+                LoggerUtil.getLog("Logger").Info($"User with login={login} logged in app!");
+                return u;
             }
         }
 

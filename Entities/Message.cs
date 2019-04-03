@@ -21,6 +21,14 @@ namespace Entities
             MessageDate = messageDate;
         }
 
+        public Message(Message m)
+        {
+            IDUser = m.IDUser;
+            IDFriend = m.IDFriend;
+            MessageValue = m.MessageValue;
+            MessageDate = m.MessageDate;
+        }
+
         public int? IDUser { get; set; }
 
         public int? IDFriend { get; set; }

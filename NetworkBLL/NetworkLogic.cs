@@ -94,7 +94,7 @@ namespace NetworkBLL
             return NetworkDao.SearchByPhone(Phone);
         }
 
-        public void SendMessage(int userId, int friendId, string message)
+        public void SendMessage(int? userId, int? friendId, string message)
         {
             NetworkDao.SendMessage(userId, friendId, message);
         }

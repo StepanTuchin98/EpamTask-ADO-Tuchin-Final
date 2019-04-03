@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entities.Message>
+﻿@model IEnumerable< NetworkMVC.Models.MessageWithNames>
 
 @{
     ViewBag.Title = "Message";
@@ -10,10 +10,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.IDUser)
+            @Html.DisplayNameFor(model => model.To)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IDFriend)
+            @Html.DisplayNameFor(model => model.From)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MessageValue)
@@ -28,10 +28,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IDUser)
+                @Html.DisplayFor(modelItem => item.To)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IDFriend)
+                @Html.DisplayFor(modelItem => item.From)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MessageValue)
@@ -44,23 +44,21 @@
             </td>
         </tr>
     }
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-horizontal" style="position: absolute; bottom: 0;">
-            <h4>Message</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                <label for="message">Message:</label>
-                <textarea class="form-control" rows="5" id="message"></textarea>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Send" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
 </table>
+@using (Html.BeginForm())
+{
+    string url = HttpContext.Current.Request.Url.AbsoluteUri;
+    Uri uri = new Uri(url);
+    int leaf = int.Parse(uri.Segments.Last());
+<div class="form-horizontal" style="position: absolute; bottom: 0;">
+    <h4>Message</h4>
+    <hr />
+    <form action="~/Message/Index" method="post">
+        <label for="message">Message:</label>
+        <textarea class="form-control" rows="5" id="message" name="message"></textarea>
+        <input type="hidden" name="idFriend" id="idFriend" value="@leaf" />
+        <button type="submit" name="Send">Send</button>
+    </form>
+</div>
+}
+

@@ -37,7 +37,7 @@ namespace INetwork.DLL
 
         bool IsUserInRole(string username, string roleName);
 
-        Message SendMessage(int userId, int friendId, string message);
+        Message SendMessage(int? userId, int? friendId, string message);
 
         User LogIn(string login, string password);
     }

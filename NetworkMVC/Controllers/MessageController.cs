@@ -1,5 +1,7 @@
-﻿using INetwork.BLL;
+﻿using Entities;
+using INetwork.BLL;
 using NetworkBLL;
+using NetworkMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +30,26 @@ namespace NetworkMVC.Views
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View(networkLogic.GetMessagesByFriend(networkLogic.GetByLogin(User.Identity.Name).IDUser, id));
+            var ms = new List<MessageWithNames>();
+            int? idUser = networkLogic.GetByLogin(User.Identity.Name).IDUser;
+            foreach (Message m in networkLogic.GetMessagesByFriend(idUser, id))
+            {
+                ms.Add(new MessageWithNames(m, networkLogic.GetById(id).Name, networkLogic.GetById(idUser).Name));
+            }
+            return View(ms.AsEnumerable());
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult Index()
+        public ActionResult Index([Bind(Include = "idFriend, message")] int? idFriend, string message)
         {
-            return View();
+            int? id = networkLogic.GetByLogin(User.Identity.Name).IDUser;
+            networkLogic.SendMessage(id, idFriend, message);
+            var ms = new List<MessageWithNames>();
+            foreach(Message m in networkLogic.GetMessagesByFriend(id, idFriend)){
+                ms.Add(new MessageWithNames(m, networkLogic.GetById(idFriend).Name, networkLogic.GetById(id).Name));
+            }
+            return View(ms.AsEnumerable());
         }
     }
 }

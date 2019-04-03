@@ -17,7 +17,7 @@ namespace NetworkMVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            LoggerUtil.InitLogger("Logs\\Info.log", "%d  %-5p %m%n", "Logger");
+            LoggerUtil.InitLogger($"Logs\\LogsAppStart_{DateTime.Now.ToString("dd/MM/yyyy_hh_mm_tt")}\\Info.log", "%d  %-5p %m%n", "Logger");
         }
     }
 }

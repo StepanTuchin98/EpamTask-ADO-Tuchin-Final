@@ -38,7 +38,7 @@ namespace INetwork.BLL
 
         string[] GetRoles(string username);
 
-        void SendMessage(int userId, int friendId, string message);
+        void SendMessage(int? userId, int? friendId, string message);
 
         User LogIn(string login, string password);
     }
