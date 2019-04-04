@@ -35,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Gender)
+            @Html.DisplayName("Man")
         </dt>
 
         <dd>
@@ -73,17 +73,17 @@
     {
         if (ViewBag.isFriend)
         {
-        <form action="Details" method="post">
-            <input type="hidden"  name="idUser" id="idUser" value="@Model.IDUser"/>
-            <button type="submit" name="Remove">Remove from friends</button>
-        </form>
+            <form action="Details" method="post">
+                <input type="hidden" name="idUser" id="idUser" value="@Model.IDUser" />
+                <button type="submit" name="Remove">Remove from friends</button>
+            </form>
         }
-        else if(!ViewBag.isUserHimself)
+        else if (!ViewBag.isUserHimself)
         {
-        <form action="Details" method="post">
-            <input type="hidden" name="idUser" id="idUser" value="@Model.IDUser" />
-            <button type="submit" name="Add">Add</button>
-        </form>
+            <form action="Details" method="post">
+                <input type="hidden" name="idUser" id="idUser" value="@Model.IDUser" />
+                <button type="submit" name="Add" onclick="">Add</button>
+            </form>
         }
         else
         {

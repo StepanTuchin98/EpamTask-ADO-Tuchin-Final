@@ -35,21 +35,17 @@ namespace Entities
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Invalid surname length")]
         public string Surname { get; set; }
 
-        [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Invalid patronymic length")]
         public string Patronymic { get; set; }
 
-        public bool Gender { get; set; }
+        public bool? Gender { get; set; }
 
-        [Required]
         [RegularExpression(@"^\+[2-9]\d{3}\d{3}\d{4}$", ErrorMessage = "Number Format +xxxxxxxxxxx")]
         public String PhoneNumber { get; set; }
 
-        [Required]
         [RangeUntilCurrentYear(1900, ErrorMessage = "Invalid year: min = 1900")]
-        public int YearOfBirth { get; set; }
+        public int? YearOfBirth { get; set; }
 
-        [Required]
         [StringLength(35, MinimumLength = 2, ErrorMessage = "Invalid lastname length")]
         public string Town { get; set; }
 

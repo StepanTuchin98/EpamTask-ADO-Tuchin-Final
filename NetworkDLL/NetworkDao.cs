@@ -58,11 +58,11 @@ namespace NetworkDLL
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", user.Name);
                 cmd.Parameters.AddWithValue("@Surname", user.Surname);
-                cmd.Parameters.AddWithValue("@Patronymic", user.Patronymic);
-                cmd.Parameters.AddWithValue("@YearOfBirth", user.YearOfBirth);
-                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                cmd.Parameters.AddWithValue("@Town", user.Town);
-                cmd.Parameters.AddWithValue("@Gender", user.Gender);
+                cmd.Parameters.AddWithValue("@Patronymic", ((object)user.Patronymic) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@YearOfBirth", ((object)user.YearOfBirth) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@PhoneNumber", ((object)user.PhoneNumber) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Town", ((object)user.Town) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Gender", ((object)user.Gender) ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Login", user.Login);
                 cmd.Parameters.AddWithValue("@Id", user.IDUser);
@@ -94,11 +94,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDFriend"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"],
                         TermOfFriend = (DateTime)reader["Term_Friends"],
                     };
 
@@ -128,11 +128,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"],
                         Login = username
                     };
                 }
@@ -212,7 +212,7 @@ namespace NetworkDLL
             {
                 SqlCommand cmd = new SqlCommand("SearchByName", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Name", Name);
+                cmd.Parameters.AddWithValue("@Name", ((object)Name) ?? DBNull.Value);
 
                 connection.Open();
 
@@ -225,11 +225,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"]
                     };
                     result.Add(f);
                 }
@@ -244,7 +244,7 @@ namespace NetworkDLL
             {
                 SqlCommand cmd = new SqlCommand("SearchBySurname", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Surname", Surname);
+                cmd.Parameters.AddWithValue("@Surname", ((object)Surname) ?? DBNull.Value);
 
                 connection.Open();
 
@@ -257,11 +257,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"]
                     };
                     result.Add(f);
                 }
@@ -276,7 +276,7 @@ namespace NetworkDLL
             {
                 SqlCommand cmd = new SqlCommand("SearchByTown", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Town", Town);
+                cmd.Parameters.AddWithValue("@Town", ((object)Town) ?? DBNull.Value);
 
                 connection.Open();
 
@@ -289,11 +289,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"]
                     };
                     result.Add(f);
                 }
@@ -308,7 +308,7 @@ namespace NetworkDLL
             {
                 SqlCommand cmd = new SqlCommand("SearchByPhone", connection);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PhoneNumber", Phone);
+                cmd.Parameters.AddWithValue("@PhoneNumber", ((object)Phone) ?? DBNull.Value);
 
                 connection.Open();
 
@@ -321,11 +321,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"]
                     };
                     result.Add(f);
                 }
@@ -341,11 +341,11 @@ namespace NetworkDLL
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Name", user.Name);
                 cmd.Parameters.AddWithValue("@Surname", user.Surname);
-                cmd.Parameters.AddWithValue("@Patronymic", user.Patronymic);
-                cmd.Parameters.AddWithValue("@YearOfBirth", user.YearOfBirth);
-                cmd.Parameters.AddWithValue("@PhoneNumber", user.PhoneNumber);
-                cmd.Parameters.AddWithValue("@Town", user.Town);
-                cmd.Parameters.AddWithValue("@Gender", user.Gender);
+                cmd.Parameters.AddWithValue("@Patronymic", ((object)user.Patronymic) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@YearOfBirth", ((object)user.YearOfBirth) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@PhoneNumber", ((object)user.PhoneNumber) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Town", ((object)user.Town) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Gender", ((object)user.Gender) ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Login", user.Login);
                 var id = new SqlParameter
@@ -373,7 +373,7 @@ namespace NetworkDLL
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@IDUser", userId);
                 cmd.Parameters.AddWithValue("@IDFriend", friendId);
-                cmd.Parameters.AddWithValue("@Message", message);
+                cmd.Parameters.AddWithValue("@Message", ((object)message) ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@DateOfMessage", now);
 
                 connection.Open();
@@ -403,11 +403,11 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"]
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"]
                     };
                 }
                 LoggerUtil.getLog("Logger").Info($"User with login={login} logged in app!");
@@ -434,17 +434,106 @@ namespace NetworkDLL
                         IDUser = (int?)reader["IDUser"],
                         Name = (string)reader["Name"],
                         Surname = (string)reader["Surname"],
-                        Patronymic = (string)reader["Patronymic"],
-                        Town = (string)reader["Town"],
-                        Gender = (bool)reader["Gender"],
-                        YearOfBirth = (int)reader["YearOfBirth"],
-                        PhoneNumber = (string)reader["PhoneNumber"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value)? null: (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"],
                         Login = (string)reader["Login"]
                     };
                 }
                 return u;
             }
         }
+
+        public void DeleteMessages()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteMessages", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                connection.Open();
+
+                cmd.ExecuteNonQuery();
+                LoggerUtil.getLog("Logger").Info("All messages was successfully deleted!");
+            }
+        }
+
+        public void DeleteUsers()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("DeleteUsers", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                connection.Open();
+
+                cmd.ExecuteNonQuery();
+                LoggerUtil.getLog("Logger").Info("All users was successfully deleted!");
+            }
+        }
+
+        public IEnumerable<Message> GetAllMessages()
+        {
+            var result = new List<Message>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllMessages", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var m = new Message
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        IDFriend = (int?)reader["IDFriend"],
+                        MessageValue = (string)reader["Message"],
+                        MessageDate = (DateTime)reader["DateOfMessage"],
+                    };
+
+                    result.Add(m);
+                }
+            }
+            return result.AsEnumerable();
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            var result = new List<User>();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("GetAllUsers", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var m = new User
+                    {
+                        IDUser = (int?)reader["IDUser"],
+                        Name = (string)reader["Name"],
+                        Surname = (string)reader["Surname"],
+                        Patronymic = reader["Patronymic"].Equals(DBNull.Value) ? null : (string)reader["Patronymic"],
+                        Town = reader["Town"].Equals(DBNull.Value) ? null : (string)reader["Town"],
+                        Gender = reader["Gender"].Equals(DBNull.Value) ? null : (bool?)reader["Gender"],
+                        YearOfBirth = reader["YearOfBirth"].Equals(DBNull.Value) ? null : (int?)reader["YearOfBirth"],
+                        PhoneNumber = reader["PhoneNumber"].Equals(DBNull.Value) ? null : (string)reader["PhoneNumber"],
+                        Login = (string)reader["Login"],
+                        Password = (string)reader["Password"]
+                    };
+
+                    result.Add(m);
+                }
+            }
+            return result.AsEnumerable();
+        }
     }
 }
-

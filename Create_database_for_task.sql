@@ -77,7 +77,6 @@ BEGIN
 	VALUES
 	(@Id, 'user')
 END
-GO
 
 GO
 CREATE PROCEDURE [dbo].[AddUser]
@@ -260,4 +259,52 @@ BEGIN
 	 FROM [User] u 
 	 WHERE u.[IDUser] = @Id
 	 
+END
+
+GO
+CREATE PROCEDURE [dbo].[GetAllUsers]
+AS
+BEGIN
+	 SELECT *
+	 FROM [User]  
+END
+
+GO
+CREATE PROCEDURE [dbo].GetAllMessages
+AS
+BEGIN
+	 SELECT *
+	 FROM [Messages]	 
+END
+
+GO
+CREATE PROCEDURE [dbo].DeleteMessages
+AS
+BEGIN
+	 ALTER TABLE [User]  nocheck constraint all
+	 DELETE FROM [Messages] 
+END
+GO
+CREATE PROCEDURE [dbo].DeleteUsers
+AS
+BEGIN
+
+	 ALTER TABLE [Friendship]  nocheck constraint all
+	 ALTER TABLE [UserRole]  nocheck constraint all
+	 ALTER TABLE [Messages]  nocheck constraint all
+	 DELETE u
+	 FROM [User] u INNER JOIN [UserRole] ur ON u.IDUser=ur.IDUser
+	 WHERE ur.[Role] != 'admin'
+
+	 DELETE ur
+	 FROM [User] u RIGHT JOIN [UserRole] ur ON u.IDUser=ur.IDUser
+	 WHERE u.IDUser is Null
+	 
+	 DELETE m
+	 FROM [User] u RIGHT JOIN [Messages] m ON u.IDUser=m.IDUser
+	 WHERE u.IDUser is Null
+
+	 DELETE f
+	 FROM [User] u RIGHT JOIN [Friendship] f ON u.IDUser=f.IDUser
+	 WHERE u.IDUser is Null
 END

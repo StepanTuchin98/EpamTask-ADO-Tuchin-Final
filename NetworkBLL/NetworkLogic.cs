@@ -103,5 +103,25 @@ namespace NetworkBLL
         {
             return NetworkDao.SingUp(user);
         }
+
+        public void DeleteMessages()
+        {
+            NetworkDao.DeleteMessages();
+        }
+
+        public void DeleteUsers()
+        {
+            NetworkDao.DeleteUsers();
+        }
+
+        public IEnumerable<Message> GetAllMessages()
+        {
+            return NetworkDao.GetAllMessages();
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return NetworkDao.GetAllUsers();
+        }
     }
 }

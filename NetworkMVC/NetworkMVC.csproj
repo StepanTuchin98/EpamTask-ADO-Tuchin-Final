@@ -221,6 +221,8 @@
     <Content Include="Views\Search\Details.cshtml" />
     <Content Include="Views\Shared\_PartialSearch.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\MainPage\GetAllUsers.cshtml" />
+    <Content Include="Views\Message\GetAllMessages.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

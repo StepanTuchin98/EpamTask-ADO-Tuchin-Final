@@ -1,4 +1,4 @@
-﻿@model IEnumerable< NetworkMVC.Models.MessageWithNames>
+﻿@model IEnumerable<NetworkMVC.Models.MessageWithNames>
 
 @{
     ViewBag.Title = "Message";
@@ -7,7 +7,23 @@
 <h2>Message box</h2>
 
 
-<table class="table">
+@using (Html.BeginForm())
+{
+    string url = HttpContext.Current.Request.Url.AbsoluteUri;
+    Uri uri = new Uri(url);
+    int leaf = int.Parse(uri.Segments.Last());
+    <div class="form-horizontal">
+        <h4>Message</h4>
+        <hr />
+        <form action="~/Message/Index" method="post">
+            <label for="message">Message:</label>
+            <textarea class="form-control" rows="5" id="message" style="resize: none;" name="message"></textarea>
+            <input type="hidden" name="idFriend" id="idFriend" value="@leaf" />
+            <button type="submit"style="margin:10px;" name="Send">Send</button>
+        </form>
+    </div>
+}
+<table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.To)
@@ -33,32 +49,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.From)
             </td>
-            <td>
+            <td style="word-break: break-all">
                 @Html.DisplayFor(modelItem => item.MessageValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MessageDate)
             </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
         </tr>
     }
 </table>
-@using (Html.BeginForm())
-{
-    string url = HttpContext.Current.Request.Url.AbsoluteUri;
-    Uri uri = new Uri(url);
-    int leaf = int.Parse(uri.Segments.Last());
-<div class="form-horizontal" style="position: absolute; bottom: 0;">
-    <h4>Message</h4>
-    <hr />
-    <form action="~/Message/Index" method="post">
-        <label for="message">Message:</label>
-        <textarea class="form-control" rows="5" id="message" name="message"></textarea>
-        <input type="hidden" name="idFriend" id="idFriend" value="@leaf" />
-        <button type="submit" name="Send">Send</button>
-    </form>
-</div>
-}
+
 

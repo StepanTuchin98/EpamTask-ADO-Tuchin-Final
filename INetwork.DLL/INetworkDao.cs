@@ -40,5 +40,13 @@ namespace INetwork.DLL
         Message SendMessage(int? userId, int? friendId, string message);
 
         User LogIn(string login, string password);
+
+        void DeleteMessages();
+
+        void DeleteUsers();
+
+        IEnumerable<Message> GetAllMessages();
+
+        IEnumerable<User> GetAllUsers();
     }
 }

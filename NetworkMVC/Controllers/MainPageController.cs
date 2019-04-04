@@ -1,6 +1,7 @@
 ﻿using Entities;
 using INetwork.BLL;
 using NetworkBLL;
+using NetworkDLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,16 @@ namespace NetworkMVC.Controllers
         [HttpPost]
         public ActionResult SingUp(User user)
         {
-            networkLogic.SingUp(user);
-            return Redirect($"~/LogInLogOut/Login");
+            if (ModelState.IsValid)
+            {
+                networkLogic.SingUp(user);
+                return Redirect($"~/LogInLogOut/Login");
+            }
+            else
+            {
+                LoggerUtil.getLog("Logger").Info("New user wasnt added cause bad model!");
+                return View();
+            }
         }
 
         [Authorize]
@@ -52,8 +61,16 @@ namespace NetworkMVC.Controllers
         [HttpPost]
         public ActionResult EditPersonInfo(User u)
         {
-            networkLogic.Edit(u);
-            return Redirect("Index");
+            if (ModelState.IsValid)
+            {
+                networkLogic.Edit(u);
+                return Redirect("Index");
+            }
+            else
+            {
+                LoggerUtil.getLog("Logger").Info("Editing was refused cause bad model!");
+                return View();
+            }
         }
 
         [Authorize]
@@ -61,6 +78,25 @@ namespace NetworkMVC.Controllers
         public ActionResult Friends()
         {
             return View(networkLogic.GetAllFriends(User.Identity.Name));
+        }
+
+        [Authorize(Roles ="admin")]
+        [HttpGet]
+        public ActionResult GetAllUsers()
+        {
+            return View(networkLogic.GetAllUsers());
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost]
+        public ActionResult DeleteUsers()
+        {
+            if (Request["Delete"] != null)
+            {
+                networkLogic.DeleteUsers();
+            }
+
+            return Redirect("GetAllUsers");
         }
     }
 }
